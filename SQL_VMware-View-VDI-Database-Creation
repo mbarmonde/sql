@@ -1,0 +1,28 @@
+/* Author:      Mike Barmonde */
+/* Description: Creates VMware View Composer server database. */
+/* Usage:       N/A */
+/* Notes:       Search and replace DOMAIN\USERNAME to VMware View Composer service account */
+
+EXEC('CREATE LOGIN [DOMAIN\USERNAME]FROM WINDOWS')
+
+USE MSDB
+EXEC sp_grantdbaccess 'DOMAIN\USERNAME'
+EXEC sp_addrolemember db_owner, 'DOMAIN\USERNAME'
+
+USE master
+create database "D001-VDI-Composer"
+on
+( name = 'D001-VDI-Composer',
+filename = 'E:\SQLData\D001-VDI-Composer.mdf',
+size = 2000MB,
+filegrowth = 500MB )
+log on
+( name = 'D001-VDI-Composer-Log',
+filename = 'F:\SQLLogs\D001-VDI-Composer-Log.ldf',
+size = 200MB,
+filegrowth = 20MB )
+COLLATE SQL_Latin1_General_CP1_CI_AS;
+
+EXEC('ALTER AUTHORIZATION ON DATABASE::"D001-VDI-Composer" TO [DOMAIN\USERNAME]')
+
+GO
