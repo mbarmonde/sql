@@ -1,0 +1,27 @@
+/* Author:      Mike Barmonde */
+/* Description: Creates VMware View Composer server database. */
+/* Usage:       N/A */
+/* Notes:       Search and replace LOCALUSER with the local VMware View Composer computer account  */
+
+
+
+USE MSDB
+EXEC sp_addrolemember db_owner, 'LOCALUSER'
+
+USE master
+create database "D001-VDI-ViewEvents"
+on
+( name = 'D001-VDI-ViewEvents',
+filename = 'E:\SQLData\D001-VDI-ViewEvents.mdf',
+size = 2000MB,
+filegrowth = 500MB )
+log on
+( name = 'D001-VDI-Composer-Log',
+filename = 'F:\SQLLogs\D001-VDI-ViewEvents-Log.ldf',
+size = 200MB,
+filegrowth = 20MB )
+COLLATE SQL_Latin1_General_CP1_CI_AS;
+
+EXEC('ALTER AUTHORIZATION ON DATABASE::"D001-VDI-ViewEvents" TO [LOCALUSER]')
+
+GO
