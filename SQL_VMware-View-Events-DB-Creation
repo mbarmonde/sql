@@ -1,7 +1,7 @@
 /* Author:      Mike Barmonde */
 /* Description: Creates VMware View Composer server database. */
 /* Usage:       N/A */
-/* Notes:       Search and replace LOCALUSER with the local VMware View Composer computer account  */
+/* Notes:       Search and replace LOCALUSER with the local VMware View Composer computer account; for the ODBC 2008R2 client, https://drive.google.com/folderview?id=0B5OIlT1xfLkNRGZmT2h2QThlZVk&usp=sharing */  */
 
 
 
