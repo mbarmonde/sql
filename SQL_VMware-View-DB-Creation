@@ -3,6 +3,8 @@
 /* Usage:       N/A */
 /* Notes:       Search and replace DOMAIN\USERNAME to VMware View Composer service account */
 
+
+
 EXEC('CREATE LOGIN [DOMAIN\USERNAME]FROM WINDOWS')
 
 USE MSDB
