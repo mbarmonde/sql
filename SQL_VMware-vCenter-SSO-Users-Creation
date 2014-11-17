@@ -1,0 +1,40 @@
+/* Author:      Mike Barmonde */
+/* Description: Creates and associates the RSA_DBA, and RSA_USER users with passwordsfor the SSO database  */
+/* Usage:        N/A */
+/* Notes:        Search and Replace DBPASSWORD with your specific password
+
+-- PROJECT     IMS
+-- MODEL       IDENTITY MANAGEMENT SERVICE
+-- COMPANY     RSA, the Security Division of EMC
+-- DATABASE    MSSQL
+
+-------------------------------------------------------------------------------------
+-- Create users
+-- Change the user's passwords (CHANGE USER PASSWORD) below.
+
+-- The DBA account is used during installation and the USER account is used during
+-- operation. The user names below can be customised, but cannot contain 
+-- reserved keywords like table or any characters other than letters, numbers, and _ .
+-- Please execute the scripts as a administrator with sufficient permissions.
+-------------------------------------------------------------------------------------
+
+USE MASTER
+GO
+
+CREATE LOGIN RSA_DBA WITH PASSWORD = 'DBPASSWORD', DEFAULT_DATABASE = RSA
+GO
+CREATE LOGIN RSA_USER WITH PASSWORD = 'DBPASSWORD', DEFAULT_DATABASE = RSA
+GO
+
+USE RSA
+GO
+
+ALTER AUTHORIZATION ON DATABASE::RSA TO RSA_DBA
+GO
+
+CREATE USER RSA_USER FOR LOGIN RSA_USER
+GO
+
+CHECKPOINT
+GO
+
