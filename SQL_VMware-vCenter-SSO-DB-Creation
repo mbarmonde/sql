@@ -1,0 +1,61 @@
+-- PROJECT     IMS
+-- MODEL       IDENTITY MANAGEMENT SERVICE
+-- COMPANY     RSA, the Security Division of EMC
+-- DATABASE    MSSQL
+
+USE MASTER
+GO
+
+-------------------------------------------------------------------------------------
+-- Create database
+--
+-- Using this script is not mandatory. The database can be created with
+-- SQL Management Studio, ensuring that there are two tablespaces, named RSA_DATA
+-- and RSA_INDEX, and that there are only alphanumeric characters in the database name.
+--
+-- Before running this script, customize the file paths (CHANGE ME) below.
+-- 1. Decide on a folder to hold the database files (10 GB of space required).
+-- For example, it can be the DATA folder of the SQL Server, usually
+-- C:\Program Files\Microsoft SQL Server\MSSQL10_50.<instance name>\MSSQL\DATA
+-- 2. Replace all 3 occurrences of C:\CHANGE ME with the path to the folder
+
+-- The database name can also be customized, but cannot contain
+-- reserved keywords like database or any characters other than letters, numbers,
+-- _, @ and #.
+
+-- Advanced users can put the different files (RSA_DATA, RSA_INDEX and LOG)
+-- on different storage devices to improve performance. RSA_INDEX is a small file which
+-- is recommended to be stored on a fast device.
+-- For more details, please refer to Microsoft documentation at http://technet.microsoft.com/en-us/library/ms143547.aspx
+-------------------------------------------------------------------------------------
+CREATE DATABASE RSA ON PRIMARY(
+    NAME='RSA_DATA',
+    FILENAME='E:\SQLData\RSA_DATA.mdf',
+    SIZE=10MB,
+    MAXSIZE=UNLIMITED,
+    FILEGROWTH=10%),
+FILEGROUP RSA_INDEX(
+    NAME='RSA_INDEX',
+    FILENAME='E:\SQLData\RSA_INDEX.ndf',
+    SIZE=10MB,
+    MAXSIZE=UNLIMITED,
+    FILEGROWTH=10%)
+LOG ON(
+    NAME='translog',
+    FILENAME='F:\SQLLogs\translog.ldf',
+    SIZE=10MB,
+    MAXSIZE=UNLIMITED,
+    FILEGROWTH=10% )
+GO
+
+-- Set recommended performance settings on the database
+ALTER DATABASE [RSA] SET RECOVERY SIMPLE
+GO
+
+CHECKPOINT
+GO
+
+-------------------------------------------------------------------------------------
+-- To drop the database, the command is:
+-------------------------------------------------------------------------------------
+-- DROP DATABASE RSA
