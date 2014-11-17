@@ -1,0 +1,43 @@
+/* Author:      Mike Barmonde */
+/* Description: Creates vCenter server and VUM databases. */
+/* Usage:       N/A */
+/* Notes:       Seach and replace DOMAIN\USERNAME with your specific information */
+
+EXEC('CREATE LOGIN [DOMAIN\USERNAME]FROM WINDOWS')
+
+USE MSDB
+EXEC sp_grantdbaccess 'DOMAIN\USERNAME'
+EXEC sp_addrolemember db_owner, 'DOMAIN\USERNAME'
+
+USE master
+create database "D001-VDI-vCenter"
+on
+( name = 'D001-VDI-vCenter',
+filename = 'E:\SQLData\D001-VDI-vCenter.mdf',
+size = 2000MB,
+filegrowth = 500MB )
+log on
+( name = 'D001-VDI-vCenter-Log',
+filename = 'F:\SQLLogs\D001-VDI-vCenter-Log.ldf',
+size = 200MB,
+filegrowth = 20MB )
+COLLATE SQL_Latin1_General_CP1_CI_AS;
+
+create database "D001-VDI-vCenter-VUM"
+on
+( name = 'D001-VDI-vCenter-VUM',
+filename = 'E:\SQLData\D001-VDI-vCenter-VUM.mdf',
+size = 250MB,
+filegrowth = 25MB )
+log on
+( name = 'D001-VDI-vCenter-VUM-Log',
+filename = 'F:\SQLLogs\D001-VDI-vCenter-VUM-Log.ldf',
+size = 25MB,
+filegrowth = 2MB )
+COLLATE SQL_Latin1_General_CP1_CI_AS;
+
+EXEC('ALTER AUTHORIZATION ON DATABASE::"D001-VDI-vCenter" TO [DOMAIN\USERNAME]')
+EXEC('ALTER AUTHORIZATION ON DATABASE::"D001-VDI-vCenter-VUM" TO [DOMAIN\USERNAME]')
+
+GO
+
